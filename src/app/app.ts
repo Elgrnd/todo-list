@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component} from '@angular/core';
 import { TodoItem } from './todo-item/todo-item';
 import { Task } from './task';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
-  imports: [TodoItem],
+  imports: [TodoItem, ReactiveFormsModule],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
@@ -27,6 +28,8 @@ export class App {
     }
   ];
 
+  newTask = new FormControl('');
+
   toogleTask(id: number) {
     const task = this.tasks.find(task => task.id === id);
 
@@ -37,5 +40,22 @@ export class App {
 
   deleteTask(id: number) {
     this.tasks = this.tasks.filter(task => task.id !== id);
+  }
+
+  addTask() {
+    const title = this.newTask.value;
+
+    if (!title) {
+      return;
+    }
+
+    const task: Task = {
+      id: Date.now(),
+      title: title,
+      completed: false
+    }
+
+    this.tasks.push(task);
+    this.newTask.reset();
   }
 }

@@ -1,3 +1,11 @@
+<input
+  type="text"
+  placeholder="Nouvelle tâche..."
+  [formControl]="newTask"
+>
+
+<button (click)="addTask()">Ajouter</button>
+
 @for (task of tasks; track task.id) {
   <app-todo-item
     [task]="task"
