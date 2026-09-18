@@ -1,16 +1,35 @@
+<form (ngSubmit)="addTask()">
+
+  <input
+    type="text"
+    placeholder="Nouvelle tâche..."
+    [formControl]="newTask"
+  >
+
+  @if (newTask.invalid && newTask.touched) {
+    <p class="error">
+      La tâche doit contenir au moins 3 caractères.
+    </p>
+  }
+
+  <button type="submit">Ajouter</button>
+</form>
+
 <input
   type="text"
-  placeholder="Nouvelle tâche..."
-  [formControl]="newTask"
+  placeholder="Rechercher une tâche..."
+  [formControl]="searchControl"
 >
 
-<button (click)="addTask()">Ajouter</button>
-
-@for (task of tasks; track task.id) {
+@for (task of filteredTasks; track task.id) {
   <app-todo-item
     [task]="task"
     (taskToogled)="toogleTask($event)"
     (taskDeleted)="deleteTask($event)"
   ></app-todo-item>
+}
+
+@if (filteredTasks.length === 0) {
+  <p>Aucune tâche trouvée.</p>
 }
 
